@@ -1,6 +1,4 @@
-// Settings you need to fill in. See SETUP.md, part 1 and part 2.
-
-// Paste the values from Firebase console > Project settings > Your apps > Web app.
+ Project settings > Your apps > Web app.
 export const firebaseConfig = {
   apiKey: "AIzaSyBd7VEf3eRJ3VCLJ4hPcKCLGbkpsWC3ADQ",
   authDomain: "tikariyas-music.firebaseapp.com",
