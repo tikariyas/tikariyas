@@ -1,36 +1,275 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#4b2350">
-<title>TSM</title>
+<title>Attendance – Tikariya’s School of Music</title>
 <style>
-  :root {
-    --paper: #f4f2f7;
-    --panel: #ffffff;
-    --ink: #211a2b;
-    --muted: #6a6275;
-    --line: #e3dceb;
-    --plum: #4b2350;
-    --plum-soft: #ebe1ee;
-    --teal: #1c7c7d;
-    --teal-soft: #d9efee;
-    --amber-ink: #8a5300;
-    --amber-soft: #fbecc9;
-    --red: #a63a3a;
-    --red-soft: #f7dede;
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.5; }
-  body { min-height: 100vh; padding-bottom: env(safe-area-inset-bottom, 0px); }
-
-  .top { position: relative; overflow: hidden; background: var(--plum); color: #fff;
-         padding: calc(env(safe-area-inset-top, 0px) + 22px) 20px 22px; }
-  .staff { position: absolute; left: 0; right: 0; top: 50%; height: 41px; margin-top: -8px;
-           background: repeating-linear-gradient(to bottom, rgba(255,255,255,.2) 0 1px, transparent 1px 10px); }
-  .top-row { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 560px; margin: 0 auto; }
-  .top h1 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 1.5rem; line-height: 1.2; letter-spacing: .01em;
+:root{--on:#fff;--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mut:#6b7385;--line:#e2e6ef;--pri:#1f3864;--g:#1e8e4e;--gb:#d8f3e3;--r:#c62828;--rb:#fde0e0;--a:#b26a00;--ab:#fff0cc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#1a2132;--tx:#e8ecf5;--mut:#97a0b5;--line:#2a3349;--on:#0f1420;--pri:#7fa2e6;--g:#5fd08c;--gb:#16382a;--r:#ff8a80;--rb:#44201f;--a:#ffc15e;--ab:#42330f}}
+:root[data-theme="dark"]{--bg:#0f1420;--card:#1a2132;--tx:#e8ecf5;--mut:#97a0b5;--line:#2a3349;--on:#0f1420;--pri:#7fa2e6;--g:#5fd08c;--gb:#16382a;--r:#ff8a80;--rb:#44201f;--a:#ffc15e;--ab:#42330f}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.4 Arial,Helvetica,sans-serif;padding-bottom:76px}
+header{background:var(--pri);color:var(--on);padding:14px 16px}
+header h1{margin:0;font-size:18px}header small{opacity:.85}
+main{max-width:640px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+input,select{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;width:100%}
+label{font-size:13px;color:var(--mut);display:block;margin:8px 0 3px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--tx);border-radius:8px;padding:10px 14px}
+button.pri{background:var(--pri);color:var(--on);border-color:var(--pri)}
+.row{display:flex;align-items:center;gap:8px}.row>.grow{flex:1;min-width:0}
+.nm{font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sub{font-size:13px;color:var(--mut)}
+.pa{display:flex;gap:6px}.pa button{width:44px;height:44px;padding:0;font-weight:bold}
+.pa .on-P{background:var(--gb);color:var(--g);border-color:var(--g)}.pa .on-A{background:var(--rb);color:var(--r);border-color:var(--r)}.pa .on-L{background:var(--ab);color:var(--a);border-color:var(--a)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.chip{padding:4px 10px;border-radius:99px;font-size:13px;font-weight:bold}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;border:0;border-radius:0;padding:14px 4px;background:none;color:var(--mut);font-size:14px}nav button.on{color:var(--pri);font-weight:bold;border-top:3px solid var(--pri);padding-top:11px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:8px 4px;border-bottom:1px solid var(--line);text-align:center}th:first-child,td:first-child{text-align:left}
+.low{color:var(--r);font-weight:bold}.empty{text-align:center;color:var(--mut);padding:24px 8px}
+.del{color:var(--r)}
+a.btn{display:inline-block;text-decoration:none;font:inherit;border:1px solid var(--line);background:var(--card);color:var(--tx);border-radius:8px;padding:10px 14px;margin:4px 4px 0 0}summary{cursor:pointer;color:var(--pri)}
+#pr{display:none}
+@media print{body>*:not(#pr){display:none!important}#pr{display:block;width:100%;color:#000;background:#fff;font-family:Arial,sans-serif}body{background:#fff;padding:0}#pr *{color:#000!important;background:none!important}#pr table{width:100%;border-collapse:collapse}#pr th,#pr td{border:1px solid #444;padding:7px;font-size:14px;text-align:center}#pr .top~table th,#pr .top~table td{padding:5px 8px}#pr .cal{width:auto;table-layout:fixed}#pr .cal th,#pr .cal td{width:15mm;height:15mm;padding:1px;vertical-align:middle;text-align:center;font-size:11px;line-height:1.2}#pr .top{display:flex;gap:8mm;align-items:flex-start}#pr .top>div{flex:1}#pr .nm2{font-size:34px;font-weight:bold}#pr>div+div{page-break-before:always}#pr>div{width:186mm;min-height:266mm;margin:0 auto;display:flex;flex-direction:column;box-sizing:border-box}#pr .top~table{flex:1}#pr .top{margin-bottom:3mm}#pr .st{font-weight:bold;font-size:17px}#pr h2{margin:0 0 4px;font-size:24px}#pr .sub{font-size:14px}@page{size:A4 portrait;margin:12mm}}
+</style>
+</head>
+<body>
+<header><h1>Tikariya’s School of Music</h1><small>Student Attendance</small></header>
+<main id="app"></main>
+<nav id="nav"></nav>
+<script>
+var S={students:[],att:{},pay:{}},tab="mark",date=today(),month=today().slice(0,7),ref=null,timer=null,ready=false,editId=null;
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+var TARGET=12,WEEK=3;
+function isSun(k){return new Date(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10)).getDay()===0}
+function wk(id,k){var d=new Date(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10));d.setDate(d.getDate()-(d.getDay()+6)%7);var n=0;for(var i=0;i<6;i++){var key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");if(S.att[key]&&S.att[key][id]==="P")n++;d.setDate(d.getDate()+1)}return n}
+function prog(s,k){var c=counts(s.id,k.slice(0,7));return (c.done?"Month completed ✓"+(c.bonus?" · "+c.bonus+" bonus":""):c.p+"/"+TARGET+" this month")+" · Week "+wk(s.id,k)+"/"+WEEK}
+function uid(){return "s"+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+function lsGet(){try{return localStorage.getItem("tsm_att")}catch(e){return null}}
+function lsSet(v){try{localStorage.setItem("tsm_att",v)}catch(e){}}
+function save(){var j=JSON.stringify(S);lsSet(j);clearTimeout(timer);timer=setTimeout(function(){if(ref){ref.set({json:j}).catch(function(){})}},600)}
+async function init(){
+  render();
+  try{
+    var user=await claude.use("user"),db=await claude.use("db");
+    if(user&&db){var id=await user.id();ref=db.collection("data/users/"+id).doc("state");var snap=await ref.get();
+      if(snap.exists&&snap.data()&&snap.data().json){S=JSON.parse(snap.data().json)}else{var l=lsGet();if(l)S=JSON.parse(l);save()}}
+    else{var l2=lsGet();if(l2)S=JSON.parse(l2)}
+  }catch(e){try{var l3=lsGet();if(l3)S=JSON.parse(l3)}catch(x){}}
+  S.students=S.students||[];S.att=S.att||{};S.pay=S.pay||{};ready=true;render();
+}
+function setAtt(id,v){var d=S.att[date]=S.att[date]||{};if(d[id]===v)delete d[id];else d[id]=v;save();render()}
+function markAll(){var d=S.att[date]=S.att[date]||{};S.students.forEach(function(s){d[s.id]="P"});save();render()}
+function counts(id,m){var p=0,a=0,l=0;for(var k in S.att){if(k.indexOf(m)===0&&!isSun(k)){var v=S.att[k][id];if(v==="P")p++;else if(v==="A")a++;else if(v==="L")l++}}return {p:p,a:a,l:l,pct:(p+a)?Math.round(100*p/(p+a)):null,done:p>=TARGET,bonus:Math.max(0,p-TARGET)}}
+function addStudent(){var n=document.getElementById("fn").value.trim();if(!n)return;
+  var c=document.getElementById("fc").value.trim(),b=document.getElementById("fb").value.trim(),ad=document.getElementById("fa").value,fe=Number(document.getElementById("ff").value)||0;
+  if(editId){S.students.forEach(function(s){if(s.id===editId){s.name=n;s.course=c;s.batch=b;s.adm=ad;s.fee=fe}});editId=null}
+  else S.students.push({id:uid(),name:n,course:c,batch:b,adm:ad,fee:fe});
+  save();render()}
+function delStudent(id){var s=S.students.filter(function(x){return x.id===id})[0];
+  if(!confirm("Delete "+s.name+" and all their attendance?"))return;
+  S.students=S.students.filter(function(x){return x.id!==id});for(var k in S.att)delete S.att[k][id];delete S.pay[id];save();render()}
+async function exportCsv(){
+  var dim=new Date(+month.slice(0,4),+month.slice(5,7),0).getDate(),h=["Student","Course","Batch"];
+  for(var d=1;d<=dim;d++)h.push(d);h.push("Present","Absent","Leave","Month completed","Bonus days","Monthly fee","Fee status");
+  var rows=[h];
+  S.students.forEach(function(s){var r=[s.name,s.course||"",s.batch||""];
+    for(var d=1;d<=dim;d++){var k=month+"-"+String(d).padStart(2,"0");r.push(isSun(k)?"Sun":(S.att[k]&&S.att[k][s.id])||"")}
+    var c=counts(s.id,month);r.push(c.p,c.a,c.l,c.done?"Yes":"No ("+c.p+"/"+TARGET+")",c.bonus,s.fee||"",(S.pay[s.id]&&S.pay[s.id][month])?"Paid":"Unpaid");rows.push(r)});
+  var csv="\ufeff"+rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");
+  try{var dl=await claude.use("downloads");if(!dl)throw 0;await dl.save({filename:"Attendance_"+month+".csv",data:csv})}
+  catch(e){if(e&&e.code==="declined")return;try{var u=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));var a=document.createElement("a");a.href=u;a.download="Attendance_"+month+".csv";a.click()}catch(x){alert("Download is not available here.")}}
+}
+function vMark(){
+  var h='<div class="card"><label>Date</label><input type="date" id="dt" value="'+date+'"></div>';
+  if(isSun(date))return h+'<div class="empty">Sunday is a holiday – no class today.</div>';
+  if(!S.students.length)return h+'<div class="empty">No students yet. Go to the Students tab and add your students.</div>';
+  var d=S.att[date]||{},p=0,a=0,l=0;S.students.forEach(function(s){var v=d[s.id];if(v==="P")p++;else if(v==="A")a++;else if(v==="L")l++});
+  h+='<div class="row"><div class="chips grow"><span class="chip" style="background:var(--gb);color:var(--g)">Present '+p+'</span><span class="chip" style="background:var(--rb);color:var(--r)">Absent '+a+'</span><span class="chip" style="background:var(--ab);color:var(--a)">Leave '+l+'</span></div><button onclick="markAll()">All present</button></div>';
+  S.students.forEach(function(s){var v=d[s.id];
+    h+='<div class="card row"><div class="grow"><div class="nm">'+esc(s.name)+'</div><div class="sub">'+esc([s.course,s.batch].filter(Boolean).join(" · "))+'</div><div class="sub">'+prog(s,date)+'</div></div><div class="pa">'+
+    ["P","A","L"].map(function(x){return '<button class="'+(v===x?"on-"+x:"")+'" onclick="setAtt(\''+s.id+'\',\''+x+'\')">'+x+'</button>'}).join("")+'</div></div>'});
+  return h}
+function vStudents(){
+  var e=S.students.filter(function(s){return s.id===editId})[0]||{name:"",course:"",batch:"",adm:"",fee:""};
+  var h='<div class="card"><b>'+(editId?"Edit student":"Add student")+'</b><label>Name</label><input id="fn" value="'+esc(e.name)+'"><label>Course / Instrument</label><input id="fc" value="'+esc(e.course)+'" placeholder="Harmonium, Tabla, Vocals…"><label>Batch time</label><input id="fb" value="'+esc(e.batch)+'" placeholder="5:00 PM"><label>Date of admission</label><input type="date" id="fa" value="'+esc(e.adm)+'"><label>Monthly fee (₹)</label><input type="number" inputmode="numeric" id="ff" value="'+esc(e.fee||"")+'" placeholder="1000"><div class="row" style="margin-top:12px"><button class="pri grow" onclick="addStudent()">'+(editId?"Save":"Add")+'</button>'+(editId?'<button onclick="editId=null;render()">Cancel</button>':'')+'</div></div>';
+  h+='<div class="sub" style="margin:4px 2px 8px">'+S.students.length+' students</div>';
+  S.students.forEach(function(s){h+='<div class="card row"><div class="grow"><div class="nm">'+esc(s.name)+'</div><div class="sub">'+esc([s.course,s.batch].filter(Boolean).join(" · "))+'</div><div class="sub">'+(s.adm?'Admitted '+esc(fd(s.adm)):'No admission date')+' · '+(s.fee?money(s.fee)+'/month':'Fee not set')+'</div></div><button onclick="editId=\''+s.id+'\';render();scrollTo(0,0)">Edit</button><button class="del" onclick="delStudent(\''+s.id+'\')">Delete</button></div>'});
+  return h}
+function vReport(){
+  var h='<div class="card"><label>Month</label><input type="month" id="mo" value="'+month+'"></div>';
+  if(!S.students.length)return h+'<div class="empty">Add students first.</div>';
+  h+='<div class="card" style="overflow-x:auto"><table><tr><th>Student</th><th>P</th><th>A</th><th>L</th><th>Month</th><th>Bonus</th></tr>';
+  S.students.forEach(function(s){var c=counts(s.id,month);h+='<tr><td>'+esc(s.name)+'</td><td>'+c.p+'</td><td>'+c.a+'</td><td>'+c.l+'</td><td style="'+(c.done?"color:var(--g);font-weight:bold":"")+'">'+(c.done?"Done ✓":c.p+"/"+TARGET)+'</td><td>'+(c.bonus||"–")+'</td></tr>'});
+  return h+'</table></div><div class="sub" style="margin:0 2px 10px">Sunday is a holiday. Commitment is 12 days a month (about 3 a week). 12 present days complete the month, and extra days are bonus days.</div><button class="pri" style="width:100%" onclick="exportCsv()">Download for Excel (CSV)</button>'}
+function money(x){return "₹"+Number(x||0).toLocaleString("en-IN")}
+function fd(d){return d?d.split("-").reverse().join("/"):""}
+function mi(ym){return +ym.slice(0,4)*12+ +ym.slice(5,7)-1}
+function ym(i){return Math.floor(i/12)+"-"+String(i%12+1).padStart(2,"0")}
+function startIdx(s){return s.adm?mi(s.adm.slice(0,7)):mi(month)}
+function pending(s){var n=0,p=S.pay[s.id]||{};for(var i=startIdx(s);i<=mi(month);i++){if(!p[ym(i)])n++}return n}
+function togglePay(id){var p=S.pay[id]=S.pay[id]||{};if(p[month])delete p[month];else p[month]=true;save();render()}
+function vFees(){
+  var h='<div class="card"><label>Fees for month</label><input type="month" id="mo" value="'+month+'"></div>';
+  var list=S.students.filter(function(s){return startIdx(s)<=mi(month)});
+  if(!list.length)return h+'<div class="empty">No students admitted by this month.</div>';
+  var got=0,due=0,all=0;list.forEach(function(s){var paid=S.pay[s.id]&&S.pay[s.id][month];if(paid)got+=+s.fee||0;else due+=+s.fee||0;all+=pending(s)*(+s.fee||0)});
+  h+='<div class="chips"><span class="chip" style="background:var(--gb);color:var(--g)">Collected '+money(got)+'</span><span class="chip" style="background:var(--rb);color:var(--r)">This month due '+money(due)+'</span><span class="chip" style="background:var(--ab);color:var(--a)">Total pending '+money(all)+'</span></div>';
+  list.forEach(function(s){var paid=S.pay[s.id]&&S.pay[s.id][month],n=pending(s);
+    h+='<div class="card row"><div class="grow"><div class="nm">'+esc(s.name)+'</div><div class="sub">'+(s.fee?money(s.fee)+'/month':'Fee not set – add it in Students')+(s.adm?' · Admitted '+esc(fd(s.adm)):'')+'</div><div class="sub '+(n?'low':'')+'">'+(n?'Pending: '+n+' month'+(n>1?'s':'')+' · '+money(n*(+s.fee||0)):'All paid up to this month')+'</div></div><button class="'+(paid?'on-P':'')+'" style="min-width:84px;'+(paid?'background:var(--gb);color:var(--g);border-color:var(--g)':'background:var(--rb);color:var(--r);border-color:var(--r)')+'" onclick="togglePay(\''+s.id+'\')">'+(paid?'Paid':'Unpaid')+'</button></div>'});
+  return h+'<div class="sub" style="margin:0 2px">Tap Paid / Unpaid to change this month’s status. Pending counts every month from the admission date up to the month selected.</div>'}
+function render(){
+  var el=document.getElementById("app");
+  el.innerHTML=!ready?'<div class="empty">Loading…</div>':(tab==="mark"?vMark():tab==="profile"?vProfile():tab==="data"?vData():tab==="students"?vStudents():tab==="fees"?vFees():vReport());
+  document.getElementById("nav").innerHTML=[["mark","Attendance"],["students","Students"],["fees","Fees"],["report","Report"],["data","Backup"]].map(function(t){return '<button class="'+(tab===t[0]?"on":"")+'" onclick="tab=\''+t[0]+'\';render()">'+t[1]+'</button>'}).join("");
+  var dt=document.getElementById("dt");if(dt)dt.onchange=function(){date=dt.value||today();render()};
+  var mo=document.getElementById("mo");if(mo)mo.onchange=function(){month=mo.value||today().slice(0,7);render()};
+}
+/* v3: month = cycle from admission date; bonus days; teacher leave */
+var asof=today(),openId=null,MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function hol(){S.hol=S.hol||{};return S.hol}
+function dstr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function pd(k){return new Date(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10))}
+function sd(k){var d=pd(k);return d.getDate()+' '+MN[d.getMonth()]}
+function cs(adm,k){var a=pd(adm),m0=a.getMonth()+k,yy=a.getFullYear()+Math.floor(m0/12),mm=m0%12,dim=new Date(yy,mm+1,0).getDate();return new Date(yy,mm,Math.min(a.getDate(),dim))}
+function cyc(s,upto){var adm=s.adm||upto.slice(0,8)+'01',out=[],bank=0;if(adm>upto)return out;
+  for(var k=0;k<400;k++){var st=cs(adm,k);if(dstr(st)>upto)break;var en=cs(adm,k+1);en.setDate(en.getDate()-1);
+    var p=0,a=0,l=0,t=0,d=new Date(st),e=dstr(en);
+    for(;dstr(d)<=e;d.setDate(d.getDate()+1)){var key=dstr(d);if(d.getDay()===0)continue;if(hol()[key]){t++;continue}var v=S.att[key]&&S.att[key][s.id];if(v==='P')p++;else if(v==='A')a++;else if(v==='L')l++}
+    var used=Math.min(t,bank,Math.max(0,TARGET-p)),earn=Math.max(0,p-TARGET);bank=bank-used+earn;
+    out.push({start:dstr(st),end:e,p:p,a:a,l:l,t:t,used:used,eff:p+used,done:p+used>=TARGET,bonus:earn,bank:bank,key:dstr(st)})}
+  return out}
+function lastc(s,k){var c=cyc(s,k);return c[c.length-1]}
+function prog(s,k){var x=lastc(s,k);if(!x)return 'Not admitted yet';
+  return sd(x.start)+'–'+sd(x.end)+': '+(x.done?'Month completed ✓':x.eff+'/'+TARGET)+(x.bonus?' · '+x.bonus+' bonus':'')+(x.bank?' · Bonus balance '+x.bank:'')+' · Week '+wk(s.id,k)+'/'+WEEK+(s.adm?'':' · set admission date')}
+function toggleOff(){var o=hol();if(o[date])delete o[date];else o[date]=true;save();render()}
+function tp(id,key){var p=S.pay[id]=S.pay[id]||{};if(p[key])delete p[key];else p[key]=true;save();render()}
+function xo(id){openId=openId===id?null:id;render()}
+function vMark(){
+  var h=`<div class='card'><label>Date</label><input type='date' id='dt' value='${date}'></div>`;
+  if(isSun(date))return h+`<div class='empty'>Sunday is a holiday – no class today.</div>`;
+  var off=hol()[date];
+  h+=`<div class='row' style='margin-bottom:8px'><div class='grow sub'>${off?'Class off (teacher leave). Bonus days cover this day.':''}</div><button onclick='toggleOff()'>${off?'Cancel teacher leave':'Mark teacher leave'}</button></div>`;
+  if(off)return h;
+  if(!S.students.length)return h+`<div class='empty'>No students yet. Go to the Students tab and add your students.</div>`;
+  var d=S.att[date]||{},p=0,a=0,l=0;S.students.forEach(s=>{var v=d[s.id];if(v==='P')p++;else if(v==='A')a++;else if(v==='L')l++});
+  h+=`<div class='row'><div class='chips grow'><span class='chip' style='background:var(--gb);color:var(--g)'>Present ${p}</span><span class='chip' style='background:var(--rb);color:var(--r)'>Absent ${a}</span><span class='chip' style='background:var(--ab);color:var(--a)'>Leave ${l}</span></div><button onclick='markAll()'>All present</button></div>`;
+  S.students.forEach(s=>{var v=d[s.id];
+    h+=`<div class='card row'><div class='grow'><div class='nm'>${esc(s.name)}</div><div class='sub'>${esc([s.course,s.batch].filter(Boolean).join(' · '))}</div><div class='sub'>${prog(s,date)}</div></div><div class='pa'>${['P','A','L'].map(x=>`<button data-i='${s.id}' data-v='${x}' class='${v===x?'on-'+x:''}' onclick='setAtt(this.dataset.i,this.dataset.v)'>${x}</button>`).join('')}</div></div>`});
+  return h}
+function vFees(){
+  var h='',tot=0;
+  if(!S.students.length)return `<div class='empty'>Add students first.</div>`;
+  S.students.forEach(s=>{
+    if(!s.adm){h+=`<div class='card'><div class='nm'>${esc(s.name)}</div><div class='sub'>Set the admission date in the Students tab</div></div>`;return}
+    var c=cyc(s,today()),pay=S.pay[s.id]||{},n=0;c.forEach(x=>{if(!pay[x.key])n++});
+    var amt=n*(+s.fee||0);tot+=amt;var cur=c[c.length-1];
+    if(!cur){h+=`<div class='card'><div class='nm'>${esc(s.name)}</div><div class='sub'>Starts on ${esc(fd(s.adm))}</div></div>`;return}
+    var paid=pay[cur.key];
+    h+=`<div class='card'><div class='row'><div class='grow'><div class='nm'>${esc(s.name)}</div><div class='sub'>${s.fee?money(s.fee)+'/month':'Fee not set'} · Current: ${sd(cur.start)}–${sd(cur.end)}</div><div class='sub'>${cur.done?'Month completed ✓':cur.eff+'/'+TARGET+' days'}${cur.bonus?' · '+cur.bonus+' bonus days (free)':''}</div><div class='sub ${n?'low':''}'>${n?'Unpaid: '+n+' month'+(n>1?'s':'')+' · '+money(amt):'All paid'}</div></div><button data-i='${s.id}' data-k='${cur.key}' onclick='tp(this.dataset.i,this.dataset.k)' style='min-width:84px;${paid?'background:var(--gb);color:var(--g);border-color:var(--g)':'background:var(--rb);color:var(--r);border-color:var(--r)'}'>${paid?'Paid':'Unpaid'}</button></div><button style='margin-top:8px;padding:6px 10px;font-size:13px' data-i='${s.id}' onclick='xo(this.dataset.i)'>${openId===s.id?'Hide months':'All months'}</button> ${n?waBtn(s):''}`;
+    if(openId===s.id){c.slice().reverse().forEach(x=>{var pd2=pay[x.key];h+=`<div class='row' style='margin-top:8px;border-top:1px solid var(--line);padding-top:8px'><div class='grow sub'>${sd(x.start)}–${sd(x.end)} · ${x.done?'Completed':x.eff+'/'+TARGET}${x.bonus?' · +'+x.bonus+' bonus':''}</div><button data-i='${s.id}' data-k='${x.key}' onclick='tp(this.dataset.i,this.dataset.k)' style='padding:6px 10px;${pd2?'color:var(--g)':'color:var(--r)'}'>${pd2?'Paid':'Unpaid'}</button></div>`})}
+    h+='</div>'});
+  return `<div class='chips'><span class='chip' style='background:var(--ab);color:var(--a)'>Total unpaid ${money(tot)}</span></div>`+h+`<div class='sub' style='margin:0 2px'>Each month runs from the admission date (admitted on the 5th: 5th to 4th). The fee is paid once per month. Bonus days are free.</div>`}
+function vReport(){
+  var h=`<div class='card'><label>Show month containing date</label><input type='date' id='ro' value='${asof}' onchange='asof=this.value||today();render()'></div>`;
+  if(!S.students.length)return h+`<div class='empty'>Add students first.</div>`;
+  h+=`<div class='card' style='overflow-x:auto'><table><tr><th>Student</th><th>P</th><th>A</th><th>L</th><th>Month</th><th>Bonus</th><th>Bank</th></tr>`;
+  S.students.forEach(s=>{var x=lastc(s,asof);
+    h+=x?`<tr><td>${esc(s.name)}<div class='sub'>${sd(x.start)}–${sd(x.end)}</div></td><td>${x.p}</td><td>${x.a}</td><td>${x.l}</td><td style='${x.done?'color:var(--g);font-weight:bold':''}'>${x.done?'Done ✓':x.eff+'/'+TARGET}</td><td>${x.bonus||'–'}</td><td>${x.bank||'–'}</td></tr>`:`<tr><td>${esc(s.name)}</td><td colspan='6' class='sub'>Not admitted yet</td></tr>`});
+  return h+`</table></div><div class='sub' style='margin:0 2px 10px'>Sunday is a holiday. A month starts on the admission date. 12 present days complete it; extra days are free bonus days. Bank = bonus days left to cover teacher leave.</div><div class='card'><label>Print register for</label><select id='ps'><option value='all'>All students (one page each)</option>${S.students.map(s=>`<option value='${s.id}'>${esc(s.name)}</option>`).join('')}</select><div class='row' style='margin-top:8px'><button class='pri grow' onclick='printReg()'>Print register (PDF)</button><button class='grow' onclick='printAll()'>Print summary</button></div></div><button style='width:100%' onclick='exportCsv()'>Download for Excel (CSV)</button>`}
+async function exportCsv(){
+  var rows=[['Student','Course','Batch','Admission date','Month start','Month end','Present','Absent','Leave','Teacher-leave days','Month completed','Bonus earned','Bonus balance','Monthly fee','Fee status','Unpaid months']];
+  S.students.forEach(s=>{var c=cyc(s,asof),x=c[c.length-1]||{},pay=S.pay[s.id]||{},n=0;c.forEach(y=>{if(!pay[y.key])n++});
+    rows.push([s.name,s.course||'',s.batch||'',s.adm||'',x.start||'',x.end||'',x.p==null?'':x.p,x.a==null?'':x.a,x.l==null?'':x.l,x.t==null?'':x.t,x.start?(x.done?'Yes':'No ('+x.eff+'/'+TARGET+')'):'',x.bonus==null?'':x.bonus,x.bank==null?'':x.bank,s.fee||'',x.start?(pay[x.key]?'Paid':'Unpaid'):'',n])});
+  var csv='\ufeff'+rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+  try{var dl=await claude.use('downloads');if(!dl)throw 0;await dl.save({filename:'Attendance_'+asof+'.csv',data:csv})}
+  catch(e){if(e&&e.code==='declined')return;try{var u=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));var a=document.createElement('a');a.href=u;a.download='Attendance_'+asof+'.csv';a.click()}catch(x){alert('Download is not available here.')}}}
+function doPrint(html){var p=document.getElementById('pr');if(!p){p=document.createElement('div');p.id='pr';document.body.appendChild(p)}p.innerHTML=html;try{window.print()}catch(e){alert('Printing is not available here.')}}
+function printAll(){var t=document.querySelector('#app .card table');if(!t)return;doPrint(`<h2>Tikariya’s School of Music</h2><div><b>Attendance Summary</b> · month containing ${fd(asof)}</div><div class='sub' style='margin:4px 0 10px'>12 present days complete the month. Extra days are bonus days. Sunday is a holiday. Printed on ${fd(today())}</div>`+t.outerHTML)}
+function printReg(){var v=document.getElementById('ps').value,list=v==='all'?S.students:S.students.filter(s=>s.id===v);if(!list.length)return;doPrint(list.map(regHtml).join(''))}
+function regHtml(s){var x=lastc(s,asof),pay=S.pay[s.id]||{},head=`<h2>Tikariya’s School of Music</h2><div><b>Attendance Register</b></div><div class='sub'>Student: <b>${esc(s.name)}</b> · ${esc([s.course,s.batch].filter(Boolean).join(' · '))} · Admission: ${s.adm?esc(fd(s.adm)):'–'}</div>`;
+  if(!x)return `<div style='page-break-after:always'>${head}<p>Not admitted yet on the selected date.</p></div>`;
+  var d=pd(x.start),cells=[],off=(d.getDay()+6)%7,i;
+  for(i=0;i<off;i++)cells.push('');
+  for(;dstr(d)<=x.end;d.setDate(d.getDate()+1)){var k=dstr(d),st=d.getDay()===0?'Sun':hol()[k]?'Off':((S.att[k]&&S.att[k][s.id])||'');cells.push(`<b>${d.getDate()}</b> ${MN[d.getMonth()]}<br><span class='st'>${st}</span>`)}
+  while(cells.length%7)cells.push('');
+  var rows='';for(i=0;i<cells.length;i+=7)rows+='<tr>'+cells.slice(i,i+7).map(c=>`<td>${c}</td>`).join('')+'</tr>';
+  var un=0;cyc(s,today()).forEach(y=>{if(!pay[y.key])un++});
+  var sum=[['Present',x.p],['Absent',x.a],['Leave',x.l],['Teacher-leave days',x.t],['Days counted',x.eff+' / '+TARGET],['Month completed',x.done?'Yes':'No'],['Bonus days earned',x.bonus],['Bonus balance',x.bank],['Monthly fee',s.fee?money(s.fee):'–'],['Fee status (this month)',pay[x.key]?'Paid':'Unpaid'],['Unpaid months',un]];
+  return `<div style='page-break-after:always'>${head}<p><b>Month: ${fd(x.start)} to ${fd(x.end)}</b></p><table class='cal'><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>${rows}</table><table style='margin-top:12px'>${sum.map(r=>`<tr><td style='text-align:left'>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')}</table><p class='sub'>P = Present · A = Absent · L = Leave · Off = teacher leave · Sun = holiday · Printed on ${fd(today())}</p></div>`}
+function regHtml(s){var x=lastc(s,asof),pay=S.pay[s.id]||{},hist=cyc(s,today());
+  var head=`<div style='display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #000;padding-bottom:4px'><div><h2>Tikariya’s School of Music</h2><div class='sub'>Attendance Register</div></div><div class='sub'>Printed on ${fd(today())}</div></div><div class='nm2' style='margin:8px 0 2px'>${esc(s.name)}</div><div class='sub' style='font-size:13px;margin-bottom:10px'>${esc([s.course,s.batch].filter(Boolean).join(' · '))} · Admission: ${s.adm?esc(fd(s.adm)):'–'}</div>`;
+  if(!x)return `<div>${head}<p>Not admitted yet on the selected date.</p></div>`;
+  var d=pd(x.start),cells=[],off=(d.getDay()+6)%7,i;
+  for(i=0;i<off;i++)cells.push('');
+  for(;dstr(d)<=x.end;d.setDate(d.getDate()+1)){var k=dstr(d),st=d.getDay()===0?'Sun':hol()[k]?'Off':((S.att[k]&&S.att[k][s.id])||'');cells.push(`<b>${d.getDate()}</b> ${MN[d.getMonth()]}<br><span class='st'>${st}</span>`)}
+  while(cells.length%7)cells.push('');
+  var rows='';for(i=0;i<cells.length;i+=7)rows+='<tr>'+cells.slice(i,i+7).map(c=>c===''?`<td style='border:none'></td>`:`<td>${c}</td>`).join('')+'</tr>';
+  var un=0;hist.forEach(y=>{if(!pay[y.key])un++});
+  var sum=[['Present',x.p],['Absent',x.a],['Leave',x.l],['Teacher-leave days',x.t],['Days counted',x.eff+' / '+TARGET],['Month completed',x.done?'Yes':'No'],['Bonus days earned',x.bonus],['Bonus balance',x.bank],['Monthly fee',s.fee?money(s.fee):'–'],['Fee status (this month)',pay[x.key]?'Paid':'Unpaid'],['Unpaid months',un]];
+  var hr=hist.slice(-12).map(y=>`<tr><td>${fd(y.start)} – ${fd(y.end)}</td><td>${y.eff} / ${TARGET}</td><td>${y.bonus||'–'}</td><td>${s.fee?money(s.fee):'–'}</td><td><b>${pay[y.key]?'Paid':'Unpaid'}</b></td></tr>`).join('');
+  return `<div>${head}<div class='top'><div><p style='margin:0 0 4px'><b>Month: ${fd(x.start)} to ${fd(x.end)}</b></p><table class='cal'><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>${rows}</table></div><div><p style='margin:0 0 4px'><b>This month</b></p><table>${sum.map(r=>`<tr><td style='text-align:left'>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')}</table></div></div><p style='margin:14px 0 4px'><b>Month-wise history</b></p><table><tr><th>Month</th><th>Days counted</th><th>Bonus</th><th>Fee</th><th>Status</th></tr>${hr}</table><p class='sub' style='margin-top:8px'>P = Present · A = Absent · L = Leave · Off = teacher leave · Sun = holiday</p></div>`}
+/* v4: profiles, backup, import, WhatsApp */
+var pid=null,Q=String.fromCharCode(34),FLD=['name','course','batch','adm','fee','dob','phone','parent','pphone','email','addr','notes'];
+async function saveFile(fn,text,type){try{var dl=await claude.use('downloads');if(!dl)throw 0;await dl.save({filename:fn,data:text})}catch(e){if(e&&e.code==='declined')return;try{var u=URL.createObjectURL(new Blob([text],{type:type||'text/plain'}));var a=document.createElement('a');a.href=u;a.download=fn;a.click()}catch(x){alert('Download is not available here.')}}}
+function csvText(rows){return '\ufeff'+rows.map(r=>r.map(x=>Q+String(x==null?'':x).split(Q).join(Q+Q)+Q).join(',')).join('\r\n')}
+function parseCsv(t){var r=[],row=[],c='',q=false;t=t.replace(/^\ufeff/,'');for(var i=0;i<t.length;i++){var ch=t[i];if(q){if(ch===Q){if(t[i+1]===Q){c+=Q;i++}else q=false}else c+=ch}else if(ch===Q)q=true;else if(ch===','){row.push(c);c=''}else if(ch==='\n'||ch==='\r'){if(ch==='\r'&&t[i+1]==='\n')i++;row.push(c);c='';r.push(row);row=[]}else c+=ch}if(c||row.length){row.push(c);r.push(row)}return r}
+function ed(id){editId=id;tab='students';render();scrollTo(0,0)}
+function op(id){pid=id;tab='profile';render();scrollTo(0,0)}
+function goBack(){tab='students';render()}
+function inp(l,k,e,t,ph){return `<label>${l}</label><input id='f_${k}' type='${t||'text'}' value='${esc(e[k]||'')}' placeholder='${ph||''}'>`}
+function vStudents(){var e=S.students.filter(s=>s.id===editId)[0]||{};
+  var h=`<div class='card'><b>${editId?'Edit student':'Add student'}</b>${inp('Name','name',e)}${inp('Course / Instrument','course',e,'','Harmonium, Tabla, Vocals')}${inp('Batch time','batch',e,'','5:00 PM')}${inp('Date of admission','adm',e,'date')}${inp('Monthly fee (₹)','fee',e,'number','1000')}<details style='margin-top:8px' ${editId?'open':''}><summary>More details</summary>${inp('Date of birth','dob',e,'date')}${inp('Student phone','phone',e,'tel')}${inp('Parent / guardian name','parent',e)}${inp('Parent WhatsApp number','pphone',e,'tel','10-digit number')}${inp('Email','email',e,'email')}${inp('Address','addr',e)}${inp('Notes','notes',e)}</details><div class='row' style='margin-top:12px'><button class='pri grow' onclick='addStudent()'>${editId?'Save':'Add'}</button>${editId?`<button onclick='editId=null;render()'>Cancel</button>`:''}</div></div>`;
+  h+=`<div class='sub' style='margin:4px 2px 8px'>${S.students.length} students · tap a name to open the profile</div>`;
+  S.students.forEach(s=>{h+=`<div class='card row'><div class='grow' data-i='${s.id}' onclick='op(this.dataset.i)' style='cursor:pointer'><div class='nm'>${esc(s.name)}</div><div class='sub'>${esc([s.course,s.batch].filter(Boolean).join(' · '))}</div><div class='sub'>${s.adm?'Admitted '+esc(fd(s.adm)):'No admission date'} · ${s.fee?money(s.fee)+'/month':'Fee not set'}</div></div><button data-i='${s.id}' onclick='ed(this.dataset.i)'>Edit</button><button class='del' data-i='${s.id}' onclick='delStudent(this.dataset.i)'>Delete</button></div>`});
+  return h}
+function addStudent(){var o={};FLD.forEach(k=>{var el=document.getElementById('f_'+k);o[k]=el?el.value.trim():''});if(!o.name)return;o.fee=Number(o.fee)||0;
+  if(editId){S.students.forEach(s=>{if(s.id===editId)Object.assign(s,o)});editId=null}else{o.id=uid();S.students.push(o)}save();render()}
+function stat(s){var c=s.adm?cyc(s,today()):[],pay=S.pay[s.id]||{},un=c.filter(y=>!pay[y.key]);return {c:c,x:c[c.length-1],un:un.length,amt:un.length*(+s.fee||0),pay:pay}}
+function waLink(s){var ph=String(s.pphone||s.phone||'').replace(/\D/g,'');if(ph.length===10)ph='91'+ph;if(!ph)return '';var t=stat(s);
+  var msg='Dear '+(s.parent||'Parent')+',\nThis is a gentle reminder that the music class fee for '+s.name+' at Tikariya’s School of Music is pending: '+t.un+' month'+(t.un>1?'s':'')+', '+money(t.amt)+'.\nKindly pay at your earliest convenience. Thank you.\n– Manoj Tikariya';
+  return 'https://wa.me/'+ph+'?text='+encodeURIComponent(msg)}
+function waBtn(s){var l=waLink(s);return l?`<a class='btn' href='${l}' target='_blank' rel='noopener'>WhatsApp reminder</a>`:`<span class='sub'>Add parent WhatsApp number for reminders</span>`}
+function kv(a,b){return b?`<div class='row' style='padding:5px 0;border-bottom:1px solid var(--line)'><div class='sub' style='width:40%'>${a}</div><div class='grow'>${esc(b)}</div></div>`:''}
+function details(s){return [['Course',s.course],['Batch time',s.batch],['Date of admission',s.adm?fd(s.adm):''],['Date of birth',s.dob?fd(s.dob):''],['Student phone',s.phone],['Parent / guardian',s.parent],['Parent WhatsApp',s.pphone],['Email',s.email],['Address',s.addr],['Monthly fee',s.fee?money(s.fee):''],['Notes',s.notes]].filter(r=>r[1])}
+function histRows(s,t){return t.c.slice(-12).reverse().map(y=>`<tr><td>${fd(y.start)} – ${fd(y.end)}</td><td>${y.eff} / ${TARGET}</td><td>${y.bonus||'–'}</td><td><b>${t.pay[y.key]?'Paid':'Unpaid'}</b></td></tr>`).join('')}
+function vProfile(){var s=S.students.filter(x=>x.id===pid)[0];if(!s){tab='students';return vStudents()}
+  var t=stat(s),x=t.x;
+  var h=`<button onclick='goBack()' style='margin-bottom:8px'>← Back</button><div class='card'><div style='font-size:22px;font-weight:bold'>${esc(s.name)}</div>${details(s).map(r=>kv(r[0],r[1])).join('')}</div>`;
+  h+=`<div class='card'><b>Current month</b>${x?kv('Dates',fd(x.start)+' to '+fd(x.end))+kv('Days counted',x.eff+' / '+TARGET)+kv('Bonus balance',String(x.bank))+kv('Unpaid months',t.un+' ('+money(t.amt)+')'):'<div class="sub">'+(s.adm?'Not admitted yet':'Add the admission date')+'</div>'}</div>`;
+  if(x)h+=`<div class='card' style='overflow-x:auto'><b>Month-wise history</b><table><tr><th>Month</th><th>Days</th><th>Bonus</th><th>Fee</th></tr>${histRows(s,t)}</table></div>`;
+  return h+`<div class='card'>${t.un?waBtn(s):''}<button data-i='${s.id}' onclick='ed(this.dataset.i)'>Edit</button> <button data-i='${s.id}' onclick='printProfile(this.dataset.i)'>Print / Save PDF</button> <button data-i='${s.id}' onclick='profCsv(this.dataset.i)'>Download CSV</button></div>`}
+function profHtml(s){var t=stat(s),x=t.x;return `<div><div style='border-bottom:2px solid #000;padding-bottom:4px'><h2>Tikariya’s School of Music</h2><div class='sub'>Student Profile · Printed on ${fd(today())}</div></div><div class='nm2' style='margin:10px 0'>${esc(s.name)}</div><table>${details(s).map(r=>`<tr><td style='text-align:left;width:40%'>${r[0]}</td><td style='text-align:left'><b>${esc(r[1])}</b></td></tr>`).join('')}</table>${x?`<p><b>Current month: ${fd(x.start)} to ${fd(x.end)}</b></p><table><tr><td style='text-align:left'>Days counted</td><td><b>${x.eff} / ${TARGET}</b></td><td style='text-align:left'>Bonus balance</td><td><b>${x.bank}</b></td><td style='text-align:left'>Unpaid months</td><td><b>${t.un}</b></td></tr></table><p style='margin:14px 0 4px'><b>Month-wise history</b></p><table><tr><th>Month</th><th>Days</th><th>Bonus</th><th>Fee</th></tr>${histRows(s,t)}</table>`:''}</div>`}
+function printProfile(id){var s=S.students.filter(x=>x.id===id)[0];if(s)doPrint(profHtml(s))}
+function profCsv(id){var s=S.students.filter(x=>x.id===id)[0];if(!s)return;var t=stat(s),x=t.x,rows=[['Field','Value'],['Name',s.name]].concat(details(s));if(x)rows.push(['Current month',x.start+' to '+x.end],['Days counted',x.eff+' / '+TARGET],['Bonus balance',x.bank],['Unpaid months',t.un]);saveFile('Profile_'+s.name.replace(/\s+/g,'_')+'.csv',csvText(rows),'text/csv')}
+function allCsv(){var rows=[['Name','Course','Batch','Admission date','Monthly fee','Date of birth','Student phone','Parent','Parent WhatsApp','Email','Address','Notes','Month start','Month end','Days counted','Month completed','Bonus balance','Unpaid months','Unpaid amount']];
+  S.students.forEach(s=>{var t=stat(s),x=t.x||{};rows.push([s.name,s.course,s.batch,s.adm,s.fee,s.dob,s.phone,s.parent,s.pphone,s.email,s.addr,s.notes,x.start,x.end,x.eff==null?'':x.eff,x.start?(x.done?'Yes':'No'):'',x.bank,t.un,t.amt])});
+  saveFile('All_Students_'+today()+'.csv',csvText(rows),'text/csv')}
+function backup(){saveFile('Tikariya_Backup_'+today()+'.json',JSON.stringify({app:'tsm-attendance',saved:today(),data:S}),'application/json')}
+function restore(el){var f=el.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var j=JSON.parse(String(r.result)),d=j.data||j;if(!d||!Array.isArray(d.students))throw 0;
+  if(!confirm('This will replace everything now in the app with the backup ('+d.students.length+' students). Continue?')){el.value='';return}
+  S=d;S.att=S.att||{};S.pay=S.pay||{};S.hol=S.hol||{};save();el.value='';alert('Backup restored.');render()}catch(e){alert('This file is not a valid backup.')}};r.readAsText(f)}
+function importCsv(el){var f=el.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var rows=parseCsv(String(r.result)).filter(x=>x.some(c=>c.trim()));if(rows.length<2){alert('No rows found in this file.');return}
+  var map=rows[0].map(h=>{h=h.toLowerCase();var par=/parent|father|mother|guardian/.test(h),ph=/phone|mobile|whats|contact|number/.test(h);
+    if(par&&ph)return 'pphone';if(par)return 'parent';if(/email|e-mail/.test(h))return 'email';if(ph)return 'phone';if(/birth|dob/.test(h))return 'dob';if(/address/.test(h))return 'addr';if(/course|instrument/.test(h))return 'course';if(/batch|timing|slot/.test(h))return 'batch';if(/admission|joining|join/.test(h))return 'adm';if(/fee/.test(h))return 'fee';if(/name/.test(h))return 'name';return ''});
+  var n=0,have=S.students.map(s=>s.name.toLowerCase());
+  rows.slice(1).forEach(row=>{var o={};map.forEach((k,i)=>{if(k&&row[i]&&!o[k])o[k]=row[i].trim()});if(!o.name||have.indexOf(o.name.toLowerCase())>=0)return;
+    ['dob','adm'].forEach(k=>{var m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(o[k]||'');if(m)o[k]=m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0')});
+    o.fee=Number(o.fee)||0;o.id=uid();S.students.push(o);have.push(o.name.toLowerCase());n++});
+  save();el.value='';alert(n+' new students added.');render()};r.readAsText(f)}
+function vData(){return `<div class='card'><b>Backup</b><div class='sub'>One file with all students, attendance, teacher leave and fees. Keep a copy in Google Drive or send it to yourself on WhatsApp.</div><button class='pri' style='width:100%;margin-top:8px' onclick='backup()'>Download backup</button></div><div class='card'><b>Restore</b><div class='sub'>Choose a backup file. It replaces everything now in the app.</div><input type='file' accept='.json,application/json' onchange='restore(this)' style='margin-top:8px'></div><div class='card'><b>All students data</b><div class='sub'>One CSV with every student’s details, current month and fee status.</div><button style='width:100%;margin-top:8px' onclick='allCsv()'>Download all students (CSV)</button></div><div class='card'><b>Import from Google Form</b><div class='sub'>Open the form’s responses in Google Sheets, choose File > Download > CSV, then select that file here. Columns are matched by their titles (name, phone, parent, email, address, date of birth, course). Students already in the app are skipped. Dates should be dd/mm/yyyy.</div><input type='file' accept='.csv,text/csv' onchange='importCsv(this)' style='margin-top:8px'></div>`}
+/* ---- Android (Capacitor) overrides ---- */
+var CP=(window.Capacitor&&window.Capacitor.Plugins)||{};
+async function saveFile(fn,text,type){
+  try{var FS=CP.Filesystem,SH=CP.Share;if(!FS||!SH)throw new Error('noplugin');
+    var r=await FS.writeFile({path:fn,data:text,directory:'CACHE',encoding:'utf8'});
+    await SH.share({title:fn,files:[r.uri],dialogTitle:'Save or send '+fn})}
+  catch(e){var m=String((e&&e.message)||e).toLowerCase();if(m.indexOf('cancel')>=0)return;
+    try{var u=URL.createObjectURL(new Blob([text],{type:type||'text/plain'}));var a=document.createElement('a');a.href=u;a.download=fn;a.click()}catch(x){alert('Could not save the file.')}}}
+var PCSS='body{font-family:Arial,sans-serif;margin:0;color:#000}@media screen{body{padding:12px}}table{width:100%;border-collapse:collapse}th,td{border:1px solid #444;padding:7px;font-size:14px;text-align:center}.cal{width:auto;table-layout:fixed}.cal th,.cal td{width:15mm;height:15mm;padding:1px;vertical-align:middle;font-size:11px;line-height:1.2}.top{display:flex;gap:8mm;align-items:flex-start}.top>div{flex:1}.nm2{font-size:34px;font-weight:bold}h2{margin:0 0 4px;font-size:24px}.sub{font-size:14px}.st{font-weight:bold;font-size:17px}body>div{width:186mm;min-height:266mm;display:flex;flex-direction:column;box-sizing:border-box}.top~table{flex:1}.top~table td,.top~table th{padding:5px 8px}body>div+div{page-break-before:always}@page{size:A4 portrait;margin:12mm}@media print{.noprint{display:none}}';
+function doPrint(html){saveFile('Print_'+today()+'.html','<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Print</title><style>'+PCSS+'</style></head><body>'+html+'<p class="noprint" style="font-family:Arial">To print: open this file in Chrome, then Menu > Share > Print > Save as PDF.</p></body></html>','text/html')}
+init();
+</script>
+</body>
+</html>
